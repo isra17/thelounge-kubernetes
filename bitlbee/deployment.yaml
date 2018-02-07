@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitlbee-ss
+spec:
+  selector:
+    app: bitlbee
+  clusterIP: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitlbee
+spec:
+  selector:
+    app: bitlbee
+  ports:
+  - name: http
+    targetPort: 6667
+    port: 6667
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: bitlbee
+spec:
+  serviceName: bitlbee-ss
+  template:
+    metadata:
+      labels:
+        app: bitlbee
+    spec:
+      containers:
+      - name: bitlbee
+        image: isra17/bitlbee-docker:latest
+        args: ['-n']
+        ports:
+        - containerPort: 6667
+          name: irc
+        volumeMounts:
+        - name: bitlbee-data
+          mountPath: /var/lib/bitlbee
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      volumes:
+      - name: bitlbee-data
+        gcePersistentDisk:
+          pdName: bitlbee-data-pd
+          fsType: ext4
+
+

@@ -18,6 +18,7 @@ export CLUSTER=$(kubectl config get-clusters | grep $PROJECT-cluster)
 
 # Create our data persistent disk:
 gcloud compute disks create $PROJECT-data-pd --size 50 --zone $ZONE --type pd-standard
+gcloud compute disks create bitlbee-data-pd --size 1 --zone $ZONE --type pd-standard
 
 # Set up ingress
 
@@ -45,3 +46,8 @@ kubectl --cluster $CLUSTER create -f nginx/nginx-ingress-controller.yaml
 #Create the lego app for auto certificates renew:
 kubectl --cluster $CLUSTER create -f nginx/lego.yaml
 
+# Deploy thelounge
+kubectl --cluster $CLUSTER create -f thelounge/
+
+# Deploy thelounge
+kubectl --cluster $CLUSTER create -f bitlbee/
