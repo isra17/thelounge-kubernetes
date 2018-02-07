@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: thelounge-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+  - hosts:
+    - irc.isra17.xyz
+    secretName: tls-secret
+  rules:
+  - host: irc.isra17.xyz
+    http:
+      paths:
+      - backend:
+          serviceName: thelounge
+          servicePort: 80
