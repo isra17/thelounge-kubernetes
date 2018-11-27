@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: matterircd
-        image: 42wim/matterircd
+        image: 42wim/matterircd:latest
         args: ["-bind", "0.0.0.0:6667"]
         ports:
         - containerPort: 6667
