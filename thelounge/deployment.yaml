@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: thelounge
-        image: thelounge/thelounge:latest
+        image: thelounge/thelounge:3.0.0-rc.5
         ports:
         - containerPort: 9000
           name: http
